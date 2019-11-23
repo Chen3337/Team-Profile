@@ -146,7 +146,7 @@ async function engineerPrompt(){
             message: "what is your engineer's github username?"
         }
     ]);
-    const newEngineer = new Intern(engineerQuestions.name, engineerQuestions.id, engineerQuestions.email, engineerQuestions.github);
+    const newEngineer = new Engineer(engineerQuestions.name, engineerQuestions.id, engineerQuestions.email, engineerQuestions.github);
     allEngineersInfos.push(newEngineer);
         addAnotherMember();
 }
