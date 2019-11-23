@@ -11,16 +11,22 @@ const Manager = require("./lib/Manager");
 // console.log(res);
 // fs.writeFile("index.html", res, function(err){if(err) throw err});
 const ids = [];
+const allEngineersInfos = [];
+const allInternsInfos = [];
+let manager;
 async function running (){
     managerPrompt();
+
 }
+// this is the manager questions
 async function managerPrompt(){
-    const managerName = await inquirer.prompt({
+    const managerQuestions = await inquirer.prompt([
+        {
             type : "input",
             name: "name",
             message: "what is your managers name?"
-        });
-    const managerId = await inquirer.prompt({
+        },
+        {
             type: "input",
             name: "id",
             message: "what is your managers id?",
@@ -28,11 +34,11 @@ async function managerPrompt(){
                 if (isNaN(value)){
                     return "please enter a number";
                 }
+                ids.push(value);
                 return true;
             }
-        });
-        ids.push(managerId.id);
-    const managerEmail = await inquirer.prompt({
+        },
+        {
             type: "input",
             name: "email",
             message: "what is your managers email?",
@@ -43,22 +49,25 @@ async function managerPrompt(){
                 }
                 return "Please enter a valid email";
             }
-        });
-    const managerOfficeNum = await inquirer.prompt({
+        },
+        {
             type: "input",
             name: "office",
             message: "what is your managers office number?"
-        }); 
+        }
+    ]); 
+    manager = new Manager(managerQuestions.name, managerQuestions.id, managerQuestions.email, managerQuestions.office);
         addAnotherMember();
 }
-
+// this is the intern questions
 async function internPrompt(){
-    const internName = await inquirer.prompt({
+    const internQuestions = await inquirer.prompt([
+        {
             type : "input",
             name: "name",
             message: "what is your Intern name?"
-        });
-    const internId = await inquirer.prompt({
+        },
+        {
             type: "input",
             name: "id",
             message: "what is your Intern id?",
@@ -69,11 +78,11 @@ async function internPrompt(){
                 if(ids.includes(value)){
                     return "This id is in use, please enter another one";
                 }
+                ids.push(value);
                 return true;
             }
-        });
-        ids.push(internId.id);
-    const internEmail = await inquirer.prompt({
+        },
+        {
             type: "input",
             name: "email",
             message: "what is your Intern email?",
@@ -84,22 +93,26 @@ async function internPrompt(){
                 }
                 return "Please enter a valid email";
             }
-        });
-    const internOfficeNum = await inquirer.prompt({
-            type: "number",
+        },
+        {
+        type: "number",
             name: "school",
             message: "what is your Intern school name?"
-        }); 
+        }
+    ]);
+    const newStudent = new Intern(internQuestions.name, internQuestions.id, internQuestions.email, internQuestions.school);
+    allInternsInfos.push(newStudent);
         addAnotherMember();
 }
-
+// this is the engineer questions
 async function engineerPrompt(){
-    const engineerName = await inquirer.prompt({
+    const engineerQuestions = await inquirer.prompt([
+        {
             type : "input",
             name: "name",
             message: "what is your engineer's name?"
-        });
-    const engineerId = await inquirer.prompt({
+        },
+        {
             type: "input",
             name: "id",
             message: "what is your engineer's id?",
@@ -111,11 +124,11 @@ async function engineerPrompt(){
                 if(ids.includes(value)){
                     return "This id is in use, please enter another one";
                 }
+                ids.push(value);
                 return true;
             }
-        });
-    ids.push(engineerId.id);
-    const engineerEmail = await inquirer.prompt({
+        },
+        {
             type: "input",
             name: "email",
             message: "what is your engineer's email?",
@@ -126,15 +139,18 @@ async function engineerPrompt(){
                 }
                 return "Please enter a valid email";
             }
-        });
-    const engineerOfficeNum = await inquirer.prompt({
-            type: "number",
+        },
+        {
+            type: "input",
             name: "github",
             message: "what is your engineer's github username?"
-        }); 
+        }
+    ]);
+    const newEngineer = new Intern(engineerQuestions.name, engineerQuestions.id, engineerQuestions.email, engineerQuestions.github);
+    allEngineersInfos.push(newEngineer);
         addAnotherMember();
 }
-
+// Ask if there is more members
 async function addAnotherMember(){
     inquirer.prompt({
         type : "list",
@@ -149,7 +165,8 @@ async function addAnotherMember(){
             engineerPrompt();
         }
         else{
-
+            console.log(allEngineersInfos);
+            console.log(allInternsInfos);
         }
     });
 }
