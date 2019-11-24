@@ -3,20 +3,18 @@ const inquirer = require("inquirer");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
-// tested out example
-// const themainHtml = fs.readFileSync("templates/main.html", 'utf8',function(err){throw err});
-// const endingHtml = fs.readFileSync("templates/manager.html", 'utf8',function(err){throw err});
-// const wwww = endingHtml.repeat(5);
-// const res = themainHtml.replace("placeholder", wwww);
-// console.log(res);
 // fs.writeFile("index.html", res, function(err){if(err) throw err});
 const ids = [];
 const allEngineersInfos = [];
 const allInternsInfos = [];
 let manager;
-async function running (){
+let resultHtml;
+// running
+function running (){
     managerPrompt();
-
+    // let mainHtml = fs.readFileSync("./templates/main.html", function(err) {if(err) throw err});
+    // resultHtml = mainHtml.replace("placeholder", resultHtml);
+    // fs.writeFileSync("my-team.html", resultHtml, function(err) {if(err) throw err});
 }
 // this is the manager questions
 async function managerPrompt(){
@@ -95,7 +93,7 @@ async function internPrompt(){
             }
         },
         {
-        type: "number",
+        type: "input",
             name: "school",
             message: "what is your Intern school name?"
         }
@@ -151,7 +149,7 @@ async function engineerPrompt(){
         addAnotherMember();
 }
 // Ask if there is more members
-async function addAnotherMember(){
+function addAnotherMember(){
     inquirer.prompt({
         type : "list",
         name: "member",
@@ -165,9 +163,42 @@ async function addAnotherMember(){
             engineerPrompt();
         }
         else{
-            console.log(allEngineersInfos);
-            console.log(allInternsInfos);
+            makeManagerHtml();
+            makeInternHtmls();
+            makeEngineerHtmls();
         }
     });
+}
+
+// manager card htmls use the information from above
+async function makeManagerHtml(){
+    const managerHtml = fs.readFileSync("./templates/manager.html", "UTF-8", function(err){if(err) throw err});
+    let newHtml = managerHtml.replace("name", manager.name);
+    newHtml = newHtml.replace("idNumber", manager.id);
+    newHtml = newHtml.replace("email", manager.email);
+    newHtml = newHtml.replace("officeNumber", manager.officeNumber);
+    resultHtml = newHtml;
+}
+// intern card htmls use the information above
+async function makeInternHtmls(){
+    for(var i = 0; i < allInternsInfos.length; i++){
+    const internHtml = fs.readFileSync("./templates/intern.html", "UTF-8", function(err){if(err) throw err});
+    let newHtml = internHtml.replace("name", allInternsInfos[i].name);
+    newHtml = newHtml.replace("idNumber", allInternsInfos[i].id);
+    newHtml = newHtml.replace("email", allInternsInfos[i].email);
+    newHtml = newHtml.replace("school", allInternsInfos[i].school);
+    resultHtml = resultHtml + newHtml;
+    }
+}
+// make  engineer cards htmls use the information above
+async function makeEngineerHtmls(){
+    for(var i = 0; i < allEngineersInfos.length; i++){
+        const engineerHtml = fs.readFileSync("./templates/engineer.html", "UTF-8", function(err){if(err) throw err});
+        let newHtml = engineerHtml.replace("name", allEngineersInfos[i].name);
+        newHtml = newHtml.replace("idNumber", allEngineersInfos[i].id);
+        newHtml = newHtml.replace("email", allEngineersInfos[i].email);
+        newHtml = newHtml.replace("github", allEngineersInfos[i].github);
+        resultHtml = resultHtml + newHtml;
+        }
 }
 running();
