@@ -11,7 +11,7 @@ let manager;
 let resultHtml;
     function makeHtmlFile(){
     let mainHtml = fs.readFileSync("./templates/main.html", "UTF-8", function(err) {if(err) throw err});
-    const finalHtml = mainHtml.replace("placeholder", resultHtml);
+    const finalHtml = mainHtml.replace("{placeholder}", resultHtml);
     fs.writeFileSync("my-team.html", finalHtml, function(err) {if(err) throw err});
     }
 // this is the manager questions
@@ -173,9 +173,9 @@ function addAnotherMember(){
 async function makeManagerHtml(){
     const managerHtml = fs.readFileSync("./templates/manager.html", "UTF-8", function(err){if(err) throw err});
     let newHtml = managerHtml.replace("name", manager.name);
-    newHtml = newHtml.replace("idNumber", manager.id);
-    newHtml = newHtml.replace("email", manager.email);
-    newHtml = newHtml.replace("officeNumber", manager.officeNumber);
+    newHtml = newHtml.replace("{idNumber}", manager.id);
+    newHtml = newHtml.replace("{email}", manager.email);
+    newHtml = newHtml.replace("{officeNumber}", manager.officeNumber);
     resultHtml = newHtml;
 }
 // intern card htmls use the information above
@@ -183,9 +183,9 @@ async function makeInternHtmls(){
     for(var i = 0; i < allInternsInfos.length; i++){
     const internHtml = fs.readFileSync("./templates/intern.html", "UTF-8", function(err){if(err) throw err});
     let newHtml = internHtml.replace("name", allInternsInfos[i].name);
-    newHtml = newHtml.replace("idNumber", allInternsInfos[i].id);
-    newHtml = newHtml.replace("email", allInternsInfos[i].email);
-    newHtml = newHtml.replace("school", allInternsInfos[i].school);
+    newHtml = newHtml.replace("{idNumber}", allInternsInfos[i].id);
+    newHtml = newHtml.replace("{email}", allInternsInfos[i].email);
+    newHtml = newHtml.replace("{school}", allInternsInfos[i].school);
     resultHtml = resultHtml + newHtml;
     }
 }
@@ -194,9 +194,10 @@ async function makeEngineerHtmls(){
     for(var i = 0; i < allEngineersInfos.length; i++){
         const engineerHtml = fs.readFileSync("./templates/engineer.html", "UTF-8", function(err){if(err) throw err});
         let newHtml = engineerHtml.replace("name", allEngineersInfos[i].name);
-        newHtml = newHtml.replace("idNumber", allEngineersInfos[i].id);
-        newHtml = newHtml.replace("email", allEngineersInfos[i].email);
-        newHtml = newHtml.replace("github", allEngineersInfos[i].github);
+        newHtml = newHtml.replace("{idNumber}", allEngineersInfos[i].id);
+        newHtml = newHtml.replace("{email}", allEngineersInfos[i].email);
+        newHtml = newHtml.replace("{github}", allEngineersInfos[i].github);
+        newHtml = newHtml.replace("{Chen3337}", allEngineersInfos[i].github);
         resultHtml = resultHtml + newHtml;
         }
 }
