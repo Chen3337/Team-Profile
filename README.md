@@ -3,7 +3,8 @@
 making a teams profile in one html using node.js
 ### How it works
 Using CLI type in "git clone https://github.com/Chen3337/Team-Profile.git" to get the files for this project.
-Next you will do "npm i" to get all the modules needed for this project.
+![alt text](https://raw.githubusercontent.com/chen3337/Team-Profile/master/images/exampleone.PNG)
+Next you will do "npm i" to install all the modules needed for this project.
 after everything is ready type in "node app.js" to start the application to make a html file with all team members.
 It will start by asking you for the manager's information name, id(number only), email, and office number.
 after answer all questions it will ask you weather to add antoher member, you can choose Intern, Engineer, or I dont want to add        more team members.
