@@ -9,13 +9,11 @@ const allEngineersInfos = [];
 const allInternsInfos = [];
 let manager;
 let resultHtml;
-// running
-function running (){
-    managerPrompt();
-    // let mainHtml = fs.readFileSync("./templates/main.html", function(err) {if(err) throw err});
-    // resultHtml = mainHtml.replace("placeholder", resultHtml);
-    // fs.writeFileSync("my-team.html", resultHtml, function(err) {if(err) throw err});
-}
+    function makeHtmlFile(){
+    let mainHtml = fs.readFileSync("./templates/main.html", "UTF-8", function(err) {if(err) throw err});
+    const finalHtml = mainHtml.replace("placeholder", resultHtml);
+    fs.writeFileSync("my-team.html", finalHtml, function(err) {if(err) throw err});
+    }
 // this is the manager questions
 async function managerPrompt(){
     const managerQuestions = await inquirer.prompt([
@@ -166,6 +164,7 @@ function addAnotherMember(){
             makeManagerHtml();
             makeInternHtmls();
             makeEngineerHtmls();
+            makeHtmlFile();
         }
     });
 }
@@ -201,4 +200,4 @@ async function makeEngineerHtmls(){
         resultHtml = resultHtml + newHtml;
         }
 }
-running();
+managerPrompt();
