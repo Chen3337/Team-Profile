@@ -9,11 +9,12 @@ const allEngineersInfos = [];
 const allInternsInfos = [];
 let manager;
 let resultHtml;
-    function makeHtmlFile(){
+// this makes the my-team.html file with all the informations
+function makeHtmlFile(){
     let mainHtml = fs.readFileSync("./templates/main.html", "UTF-8", function(err) {if(err) throw err});
     const finalHtml = mainHtml.replace("{placeholder}", resultHtml);
     fs.writeFileSync("my-team.html", finalHtml, function(err) {if(err) throw err});
-    }
+}
 // this is the manager questions
 async function managerPrompt(){
     const managerQuestions = await inquirer.prompt([
@@ -172,7 +173,7 @@ function addAnotherMember(){
 // manager card htmls use the information from above
 async function makeManagerHtml(){
     const managerHtml = fs.readFileSync("./templates/manager.html", "UTF-8", function(err){if(err) throw err});
-    let newHtml = managerHtml.replace("name", manager.name);
+    let newHtml = managerHtml.replace("{name}", manager.name);
     newHtml = newHtml.replace("{idNumber}", manager.id);
     newHtml = newHtml.replace("{email}", manager.email);
     newHtml = newHtml.replace("{officeNumber}", manager.officeNumber);
@@ -182,7 +183,7 @@ async function makeManagerHtml(){
 async function makeInternHtmls(){
     for(var i = 0; i < allInternsInfos.length; i++){
     const internHtml = fs.readFileSync("./templates/intern.html", "UTF-8", function(err){if(err) throw err});
-    let newHtml = internHtml.replace("name", allInternsInfos[i].name);
+    let newHtml = internHtml.replace("{name}", allInternsInfos[i].name);
     newHtml = newHtml.replace("{idNumber}", allInternsInfos[i].id);
     newHtml = newHtml.replace("{email}", allInternsInfos[i].email);
     newHtml = newHtml.replace("{school}", allInternsInfos[i].school);
@@ -193,7 +194,7 @@ async function makeInternHtmls(){
 async function makeEngineerHtmls(){
     for(var i = 0; i < allEngineersInfos.length; i++){
         const engineerHtml = fs.readFileSync("./templates/engineer.html", "UTF-8", function(err){if(err) throw err});
-        let newHtml = engineerHtml.replace("name", allEngineersInfos[i].name);
+        let newHtml = engineerHtml.replace("{name}", allEngineersInfos[i].name);
         newHtml = newHtml.replace("{idNumber}", allEngineersInfos[i].id);
         newHtml = newHtml.replace("{email}", allEngineersInfos[i].email);
         newHtml = newHtml.replace("{github}", allEngineersInfos[i].github);
